@@ -4,9 +4,13 @@ import { TextureLoader, TorusGeometry } from "three";
 
 const Escenario = () => {
   // Cargar las texturas para cada figura (asegúrate de tener estos archivos en /assets)
-  const cubeTexture = useLoader(TextureLoader, "/assets/texture1.jpg");
-  const sphereTexture = useLoader(TextureLoader, "/assets/texture2.jpg");
-  const coneTexture = useLoader(TextureLoader, "/assets/alpha.png");
+  const cubeTexture = useLoader(TextureLoader, "/assets/texturaUno.jpg");
+  const TextureDos = useLoader(TextureLoader, "/assets/texture2.jpg");
+  const TextureTres = useLoader(TextureLoader, "/assets/texturaDos.jpg");
+  const coneTexture = useLoader(TextureLoader, "/assets/alphaDos.png");
+  const coneTextureDos = useLoader(TextureLoader, "/assets/texture1.jpg");
+  const sphereTexture = useLoader(TextureLoader, "/assets/alpha.png");
+  const sphereTextureDos = useLoader(TextureLoader, "/assets/alphadragon.png");
 
   return (
     <Canvas camera={{ position: [0, 5, 10], fov: 50 }}>
@@ -32,19 +36,23 @@ const Escenario = () => {
 
       {/* Esfera con textura */}
       <mesh position={[-1, 1, 0]} castShadow>
-        <sphereGeometry args={[1.5, 32, 32]} />
-        <meshStandardMaterial map={sphereTexture} />
+        <sphereGeometry args={[1.4, 32, 32]} />
+        <meshStandardMaterial 
+        map={TextureTres}
+        alphaMap={sphereTextureDos}
+        transparent={true}
+      />
       </mesh>
 
       {/* Cono con textura */}
       <mesh position={[3, 1, 0]} castShadow>
         <coneGeometry args={[1, 3, 32]} />
-        <meshStandardMaterial map={coneTexture} />
+        <meshStandardMaterial map={coneTextureDos} />
       </mesh>
 
       <mesh position={[7, 1, 0]} castShadow>
         <torusKnotGeometry args={[1, 0.4, 100, 16]} />
-        <meshStandardMaterial map={coneTexture} />
+        <meshStandardMaterial map={TextureTres} />
       </mesh>
     </Canvas>
   );
