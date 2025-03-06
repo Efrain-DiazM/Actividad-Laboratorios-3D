@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+
 import { Canvas, useLoader } from "@react-three/fiber";
 import { TextureLoader, TorusGeometry } from "three";
+import AnimationFrame from "../components/AnimationFrame";
 
 const Escenario = () => {
   // Cargar las texturas para cada figura (asegúrate de tener estos archivos en /assets)
@@ -11,6 +13,24 @@ const Escenario = () => {
   const coneTextureDos = useLoader(TextureLoader, "/assets/texture1.jpg");
   const sphereTexture = useLoader(TextureLoader, "/assets/alpha.png");
   const sphereTextureDos = useLoader(TextureLoader, "/assets/alphadragon.png");
+
+  const boxRef = useRef();
+  
+    useEffect(() => {
+      let animationFrameId;
+  
+      const animate = () => {
+        if (boxRef.current) {
+          boxRef.current.rotation.x += 0.01;
+          boxRef.current.rotation.y += 0.01;
+        }
+        animationFrameId = requestAnimationFrame(animate);
+      };
+  
+      animate();
+  
+      return () => cancelAnimationFrame(animationFrameId);
+    }, []);
 
   return (
     <Canvas camera={{ position: [0, 5, 10], fov: 50 }}>
@@ -35,7 +55,7 @@ const Escenario = () => {
       </mesh>
 
       {/* Esfera con textura */}
-      <mesh position={[-1, 1, 0]} castShadow>
+      <mesh ref={boxRef} position={[-1, 1, 0]} castShadow>
         <sphereGeometry args={[1.4, 32, 32]} />
         <meshStandardMaterial 
         map={TextureTres}
